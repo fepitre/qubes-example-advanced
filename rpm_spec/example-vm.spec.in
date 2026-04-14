@@ -1,0 +1,31 @@
+Name: qubes-example-vm
+Version: @VERSION@
+Release: @REL@%{?dist}
+BuildArch: noarch
+
+Summary: Qubes Example package for VM
+License: GPLv2+
+URL: https://www.qubes-os.org/
+
+Source0: %{name}-%{version}.tar.gz
+
+BuildRequires: make
+
+%description
+Qubes Example package for VM.
+
+%prep
+%setup -q
+
+#%build
+#something to build?
+
+%install
+make install-vm DESTDIR=$RPM_BUILD_ROOT
+
+%files
+/usr/lib/qubes/example/README
+/usr/lib/qubes/example/example.sh
+
+%changelog
+@CHANGELOG@

@@ -1,0 +1,29 @@
+Source: qubes-example-advanced
+Section: admin
+Priority: optional
+Maintainer: Qubes OS <user@qubes-os.org>
+Build-Depends: debhelper (>= 10), make, gcc
+Standards-Version: 4.4.0.1
+Homepage: https://www.qubes-os.org
+
+Package: qubes-example-advanced
+Architecture: all
+Depends: ${misc:Depends}
+Description: Qubes Example advanced VM package
+ Example component for Qubes OS CI testing.
+ Covers noarch script and data installation.
+
+Package: qubes-example-advanced-libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Qubes Example advanced shared library
+ Dummy shared library for testing arch-specific (x86_64) Debian builds
+ with debuginfo and devel subpackage in qubes-builderv2 CI.
+
+Package: qubes-example-advanced-dev
+Architecture: any
+Section: libdevel
+Depends: qubes-example-advanced-libs (= ${binary:Version}), ${misc:Depends}
+Description: Development headers for qubes-example-advanced-libs
+ Header files and pkg-config file for the qubes-example dummy library.
+ Used for testing devel subpackage builds in qubes-builderv2 CI.

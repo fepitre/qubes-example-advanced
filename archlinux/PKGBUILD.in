@@ -1,0 +1,56 @@
+# Maintainer: Qubes OS <user@qubes-os.org>
+
+pkgbase=qubes-example-advanced
+pkgname=('qubes-example-advanced' 'qubes-example-advanced-libs' 'qubes-example-advanced-libs-devel')
+pkgver=@VERSION@
+pkgrel=@REL@
+pkgdesc="Qubes Example advanced dummy component for CI testing"
+arch=('x86_64')
+url="https://www.qubes-os.org/"
+license=('GPL2')
+makedepends=(make gcc)
+_pkgnvr="${pkgbase}-${pkgver}-${pkgrel}"
+source=("${_pkgnvr}.tar.gz")
+sha256sums=(SKIP)
+
+build() {
+    cd "${_pkgnvr}"
+    make build-lib
+}
+
+package_qubes-example-advanced() {
+    pkgdesc="Qubes Example advanced - VM scripts"
+    cd "${_pkgnvr}"
+    make install-vm \
+        DESTDIR="$pkgdir" \
+        LIBDIR=/usr/lib \
+        USRLIBDIR=/usr/lib \
+        SYSLIBDIR=/usr/lib
+    make install-data \
+        DESTDIR="$pkgdir" \
+        SYSCONFDIR=/etc
+    make install-extra \
+        DESTDIR="$pkgdir"
+}
+
+package_qubes-example-advanced-libs() {
+    pkgdesc="Qubes Example advanced - shared library"
+    cd "${_pkgnvr}"
+    make install-lib \
+        DESTDIR="$pkgdir" \
+        LIBDIR=/usr/lib \
+        INCLUDEDIR=/usr/include
+}
+
+package_qubes-example-advanced-libs-devel() {
+    pkgdesc="Qubes Example advanced - development headers"
+    depends=('qubes-example-advanced-libs')
+    cd "${_pkgnvr}"
+    make install-lib-devel \
+        DESTDIR="$pkgdir" \
+        LIBDIR=/usr/lib \
+        INCLUDEDIR=/usr/include \
+        VERSION="${pkgver}"
+    sed -i "s|@LIBDIR@|/usr/lib|g;s|@INCLUDEDIR@|/usr/include|g" \
+        "${pkgdir}/usr/lib/pkgconfig/example.pc"
+}

@@ -1,0 +1,8 @@
+libdir=@LIBDIR@
+includedir=@INCLUDEDIR@
+
+Name: example
+Description: Qubes Example dummy library
+Version: @LIBVERSION@
+Libs: -L${libdir} -lexample
+Cflags: -I${includedir}/example

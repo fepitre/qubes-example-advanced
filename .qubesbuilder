@@ -1,0 +1,39 @@
+host:
+  rpm:
+    build:
+    - rpm_spec/example-dom0.spec
+    - rpm_spec/example-data.spec
+    create-archive: true
+
+vm:
+  rpm:
+    build:
+    - rpm_spec/example-vm.spec
+    - rpm_spec/example-libs.spec
+    - rpm_spec/example-data.spec
+    create-archive: true
+  deb:
+    build:
+    - debian
+    create-archive: true
+  archlinux:
+    build:
+    - archlinux
+  windows:
+    build:
+    - windows/vs2022/example-advanced.sln
+    bin:
+    - windows/vs2022/x64/@CONFIGURATION@/example-dummy/example-dummy.dll
+    inc:
+    - libexample/example.h
+    lib:
+    - windows/vs2022/x64/@CONFIGURATION@/example-dummy/example-dummy.lib
+
+source:
+  create-archive: true
+  files:
+  - url: https://keys.openpgp.org/vks/v1/by-fingerprint/9FA64B92F95E706BF28E2CA6484010B5CDC576E2
+    sha256: 9FA64B92F95E706BF28E2CA6484010B5CDC576E2.sha256
+  modules:
+  - submodule-a
+  - submodule-b

@@ -1,0 +1,2 @@
+Qubes Example advanced extra data file.
+Used for testing noarch subpackage builds in qubes-builderv2 CI.

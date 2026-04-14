@@ -1,0 +1,45 @@
+Name:       qubes-example-data
+Version:    @VERSION@
+Release:    @REL@%{?dist}
+BuildArch:  noarch
+
+Summary:    Qubes Example dummy data package (noarch, with subpackages)
+License:    GPLv2+
+URL:        https://www.qubes-os.org/
+
+Source0:    %{name}-%{version}.tar.gz
+
+BuildRequires: make
+
+%description
+Qubes Example dummy data package for testing noarch RPM builds
+with subpackages in qubes-builderv2 CI.
+
+%package extra
+Summary:    Extra data for qubes-example
+BuildArch:  noarch
+
+%description extra
+Extra data files for the qubes-example dummy component.
+Used for testing noarch subpackage builds in qubes-builderv2 CI.
+
+%prep
+%setup -q
+
+%install
+make install-data \
+    SYSCONFDIR=%{_sysconfdir} \
+    DESTDIR=$RPM_BUILD_ROOT
+
+make install-extra \
+    DESTDIR=$RPM_BUILD_ROOT
+
+%files
+%dir %{_sysconfdir}/example
+%config(noreplace) %{_sysconfdir}/example/example.conf
+
+%files extra
+%{_datadir}/example/example-extra.txt
+
+%changelog
+@CHANGELOG@

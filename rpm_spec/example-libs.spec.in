@@ -1,0 +1,60 @@
+Name:       qubes-example-libs
+Version:    @VERSION@
+Release:    @REL@%{?dist}
+
+Summary:    Qubes Example dummy shared library (arch-specific, with debuginfo)
+License:    GPLv2+
+URL:        https://www.qubes-os.org/
+
+Source0:    %{name}-%{version}.tar.gz
+
+BuildRequires: make
+BuildRequires: gcc
+
+%description
+Qubes Example dummy shared library for testing arch-specific (x86_64) RPM
+builds with debuginfo generation in qubes-builderv2 CI.
+
+%package devel
+Summary:    Development headers for qubes-example-libs
+Requires:   %{name} = %{version}-%{release}
+Requires:   pkgconfig
+
+%description devel
+Development headers and pkg-config file for the qubes-example dummy library.
+Used for testing devel subpackage builds in qubes-builderv2 CI.
+
+%prep
+%setup -q
+
+%build
+%set_build_flags
+make build-lib
+
+%install
+make install-lib \
+    LIBDIR=%{_libdir} \
+    INCLUDEDIR=%{_includedir} \
+    DESTDIR=$RPM_BUILD_ROOT
+
+make install-lib-devel \
+    LIBDIR=%{_libdir} \
+    INCLUDEDIR=%{_includedir} \
+    DESTDIR=$RPM_BUILD_ROOT
+
+# Substitute version into pkg-config file
+sed -i "s|@LIBVERSION@|%{version}|g" \
+    $RPM_BUILD_ROOT%{_libdir}/pkgconfig/example.pc
+
+%ldconfig_scriptlets
+
+%files
+%{_libdir}/libexample.so.1
+
+%files devel
+%{_includedir}/example/example.h
+%{_libdir}/libexample.so
+%{_libdir}/pkgconfig/example.pc
+
+%changelog
+@CHANGELOG@

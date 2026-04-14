@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+export DESTDIR=$(shell pwd)/debian/tmp
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	$(MAKE) -C . build-lib
+
+override_dh_auto_install:
+	make install-vm
+	make install-data SYSCONFDIR=/etc
+	make install-extra
+	make install-lib LIBDIR=/usr/lib INCLUDEDIR=/usr/include
+	make install-lib-devel LIBDIR=/usr/lib INCLUDEDIR=/usr/include VERSION=$(shell cat version)
