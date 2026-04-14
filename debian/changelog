@@ -1,3 +1,9 @@
+qubes-example-advanced (1.0.2-1) unstable; urgency=medium
+
+  * Bump version.
+
+ -- Qubes OS <user@qubes-os.org>  Mon, 14 Apr 2026 00:00:00 +0000
+
 qubes-example-advanced (1.0.1-1) unstable; urgency=medium
 
   * Fix pkg-config version substitution.
